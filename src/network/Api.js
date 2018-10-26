@@ -6,6 +6,6 @@ export default axios.create({
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': '23456789'
+    'Authorization': 'Bearer 23456789'
   }
 })
