@@ -29,7 +29,7 @@ Execute este comando para instalar todas as dependências da aplicação.
 
 ### `npm start`
 
-Execute para inicializar  aplicaçnao em ambiente de desenvolvimento.<br>
+Execute para inicializar  aplicação em ambiente de desenvolvimento.<br>
 Acesse [http://localhost:3000](http://localhost:3000) para visualizar no seu browser.
 
 A página irá atualizar automaticamente quando houver qualquer alteração.<br>
@@ -37,7 +37,7 @@ Caso ocorra algum erro de sintáxe será logado no seu terminal.
 
 ### `npm run build`
 
-Gera uma build de produção no foldfer `build`.<br>
+Gera uma build de produção no folder `build`.<br>
 
 ### `Static Server`
 
