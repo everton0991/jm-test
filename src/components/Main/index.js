@@ -4,7 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: '"Roboto"'
+    fontFamily: '"Roboto"',
+    useNextVariants: true
   },
 })
 

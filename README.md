@@ -36,7 +36,7 @@ A página irá atualizar automaticamente quando houver qualquer alteração.<br>
 Caso ocorra algum erro de sintáxe será logado no seu terminal.
 
 
-### `npm test`
+### `npm test a`
 
 Este comando irá executra uma serie de tests unitários simples nos componentes compartilhados.
 
