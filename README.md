@@ -35,6 +35,11 @@ Acesse [http://localhost:3000](http://localhost:3000) para visualizar no seu bro
 A página irá atualizar automaticamente quando houver qualquer alteração.<br>
 Caso ocorra algum erro de sintáxe será logado no seu terminal.
 
+
+### `npm test`
+
+Este comando irá executra uma serie de tests unitários simples nos componentes compartilhados.
+
 ### `npm run build`
 
 Gera uma build de produção no folder `build`.<br>
