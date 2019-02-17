@@ -51,7 +51,6 @@ const Form = ({
       <InputBase
         id="cnpj"
         value={inputValue}
-        type="number"
         placeholder="Digite seu CNPJ aqui."
         onChange={handleChange}
         endAdornment={<Check didSearchReturnOk={searchOk} />}

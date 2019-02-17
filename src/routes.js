@@ -4,7 +4,6 @@ import {
 } from 'react-router-dom'
 import Home from './scenes/Home'
 import Search from './scenes/Search'
-import SearchStore from './services/SearchContext/store'
 
 const Routes = () => (
   <Router basename="/">
@@ -14,13 +13,11 @@ const Routes = () => (
         path="/"
         component={Home}
       />
-      <SearchStore>
-        <Route
-          exact
-          path="/busca"
-          component={Search}
-        />
-      </SearchStore>
+      <Route
+        exact
+        path="/busca"
+        component={Search}
+      />
     </Switch>
   </Router>
 )
