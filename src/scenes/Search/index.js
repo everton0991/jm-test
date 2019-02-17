@@ -1,8 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { Consumer } from '../../services/SearchContext'
-
 import { Grid } from '@material-ui/core'
+import { contextWrapper } from '../../services/SearchContext'
 
 import Main from '../../components/Main'
 import Header from '../../components/Layout/Header'
@@ -12,10 +12,7 @@ import Step from './components/Step'
 import Linear from '../../components/Loader/Linear'
 import Error from '../../components/Message/Error'
 
-/**
- * Component styles.
- */
-const styles = (theme) => ({
+const styles = () => ({
   background: {
     display: 'flex',
     flexDirection: 'column',
@@ -24,47 +21,61 @@ const styles = (theme) => ({
     height: '100vh'
   },
   wrapper: {
-    color: '#000',
+    color: '#000'
   }
 })
 
-const Search = ({ classes }) => (
-  <Consumer>
-    {value => {
-      const { 
-        isFetching, 
-        company, 
-        cnpj, 
-        actions, 
-        error 
-      } = value
+const Search = (props) => {
+  const {
+    classes,
+    isFetching,
+    company,
+    cnpj,
+    actions,
+    error
+  } = props
 
-      return (
-        <Main>
-          <Grid className={classes.background}>
-            {isFetching && <Linear />}
-            <Header />
-            <Grid className={classes.wrapper}>
-              <Step />
-              <Form 
-                searchOk={!!company}
-                inputValue={cnpj}
-                handleChange={actions.handleChange} 
-              />
-            {error && <Error message={error} />}
-            </Grid>
-            <BottomAction 
-              disabled={!cnpj}
-              handleClick={actions.handleClick} 
-            />
-          </Grid>
-        </Main>
-      )
-    }}
-  </Consumer>
-)
+  return (
+    <Main>
+      <Grid className={classes.background}>
+        {isFetching && <Linear />}
+        <Header />
+        <Grid className={classes.wrapper}>
+          <Step />
+          <Form
+            searchOk={!!company}
+            inputValue={cnpj}
+            handleChange={actions.handleChange}
+          />
+          {error && <Error message={error} />}
+        </Grid>
+        <BottomAction
+          disabled={!cnpj}
+          handleClick={actions.handleClick}
+        />
+      </Grid>
+    </Main>
+  )
+}
 
-/**
- * Exporting component with styles and mapping the states.
- */
-export default withStyles(styles)(Search)
+Search.defaultProps = {
+  cnpj: '',
+  company: null,
+  isFetching: '',
+  actions: {
+    handleClick: () => {},
+    handleChange: () => {}
+  },
+  error: ''
+}
+
+Search.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  company: PropTypes.string,
+  cnpj: PropTypes.string,
+  isFetching: PropTypes.bool,
+  actions: PropTypes.objectOf(PropTypes.func),
+  error: PropTypes.string
+}
+
+export default withStyles(styles)(contextWrapper(Search))

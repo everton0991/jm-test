@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 
 import { Grid } from '@material-ui/core'
@@ -7,55 +8,10 @@ import Icon from '@material-ui/core/Icon'
 import FormControl from '@material-ui/core/FormControl'
 import InputBase from '@material-ui/core/InputBase'
 import InputLabel from '@material-ui/core/InputLabel'
+import styles from './styles'
 
-/**
- * Component styles.
- */
-const styles = (theme) => ({
-  whiteBlock: {
-    backgroundColor: '#ffffff',
-    padding: '15px 25px'
-  },
-  bootstrapRoot: {
-    'label + &': {
-      marginTop: theme.spacing.unit * 3,
-    },
-  },
-  bootstrapFormLabel: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    padding: '10px 0px',
-    color: '#C3C9CE',
-    transition: theme.transitions
-    .create([
-      'border-color', 'box-shadow'
-    ]),
-    '&:focus': {
-      color: '#AA65F5 !important'
-    }
-  },
-  bootstrapInput: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    padding: '10px 0',
-    color: '#646B79',
-    transition: theme.transitions
-      .create([
-        'border-color', 'box-shadow'
-      ]),
-    '&:focus': {
-      borderColor: '#80bdff'
-    }
-  }
-})
-
-/**
- * Input check icon.
- * 
- * @param {Boolean} didSearchReturnOk
- */
-const Check = ({ ...props }) => {
-  const iconColor = (props.didSearchReturnOk === true)
+const Check = ({ didSearchReturnOk }) => {
+  const iconColor = (didSearchReturnOk === true)
     ? '#59db5c'
     : '#d0d0d0'
 
@@ -68,42 +24,57 @@ const Check = ({ ...props }) => {
   )
 }
 
-/**
- * Form component that is exported byt default.
- * 
- * @param {*} props
- */
-const Form = ({ ...props }) => {
-  const { classes } = props
-
-  return (
-    <Grid
-      container
-      direction='column'
-      className={classes.whiteBlock}>
-      <FormControl fullWidth>
-        <InputLabel
-          shrink
-          htmlFor='cnpj'
-          className={classes.bootstrapFormLabel}>
-          CNPJ
-        </InputLabel>
-        <InputBase
-          id='cnpj'
-          value={props.inputValue}
-          placeholder='Digite seu CNPJ aqui.'
-          onChange={props.handleChange}
-          endAdornment={<Check didSearchReturnOk={props.searchOk} />}
-          classes={{
-            root: classes.bootstrapRoot,
-            input: classes.bootstrapInput,
-          }} />
-      </FormControl>
-    </Grid >
-  )
+Check.defaultProps = {
+  didSearchReturnOk: false
 }
 
-/**
- * Exporting component with styles.
- */
+Check.propTypes = {
+  didSearchReturnOk: PropTypes.bool
+}
+
+const Form = ({
+  classes, inputValue, handleChange, searchOk
+}) => (
+  <Grid
+    container
+    direction="column"
+    className={classes.whiteBlock}
+  >
+    <FormControl fullWidth>
+      <InputLabel
+        shrink
+        htmlFor="cnpj"
+        className={classes.bootstrapFormLabel}
+      >
+        CNPJ
+      </InputLabel>
+      <InputBase
+        id="cnpj"
+        value={inputValue}
+        type="number"
+        placeholder="Digite seu CNPJ aqui."
+        onChange={handleChange}
+        endAdornment={<Check didSearchReturnOk={searchOk} />}
+        classes={{
+          root: classes.bootstrapRoot,
+          input: classes.bootstrapInput
+        }}
+      />
+    </FormControl>
+  </Grid>
+)
+
+Form.defaultProps = {
+  inputValue: '',
+  handleChange: () => {},
+  searchOk: false
+}
+
+Form.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  inputValue: PropTypes.string,
+  handleChange: PropTypes.func,
+  searchOk: PropTypes.bool
+}
+
 export default withStyles(styles)(Form)

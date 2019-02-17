@@ -1,58 +1,42 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 
 import { Grid, Typography } from '@material-ui/core'
+import styles from './styles'
 
-/**
- * Component styles.
- */
-const styles = ({
-  stepsBlock: {
-    padding: '20px 25px'
-  },
-  step: {
-    border: '3px solid #AA65F5',
-    padding: '2px 8px',
-    marginRight: '25px'
-  },
-  stepNumber: {
-    color: '#AA65F5',
-    fontWeight: 'bold',
-    fontSize: '14px'
-  },
-  stepText: {
-    fontWeight: 'bold',
-    fontSize: '16px',
-    color: '#8A8F9A'
-  }
-})
-
-const Step = ({ ...props }) => {
-  const { classes } = props
+const Step = ({ classes }) => {
+  const {
+    stepsBlock, step, stepNumber, stepText
+  } = classes
 
   return (
     <Grid
       container
-      direction='row'
-      alignItems='center'
-      className={classes.stepsBlock}>
-      <Grid className={classes.step}>
+      direction="row"
+      alignItems="center"
+      className={stepsBlock}
+    >
+      <Grid className={step}>
         <Typography
-          className={classes.stepNumber}
-          variant='body1'>
+          className={stepNumber}
+          variant="body1"
+        >
           1
         </Typography>
       </Grid>
       <Typography
-        className={classes.stepText}
-        variant='subtitle1'>
+        className={stepText}
+        variant="subtitle1"
+      >
         Buscar por CNPJ
       </Typography>
     </Grid>
   )
 }
 
-/**
- * Exporting component with styles.
- */
+Step.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired
+}
+
 export default withStyles(styles)(Step)

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Provider } from './index'
 import Api from '../../network/Api'
-import Search from '../../scenes/Search'
 
 class SearchStore extends PureComponent {
   constructor(props) {
@@ -9,7 +9,7 @@ class SearchStore extends PureComponent {
 
     this.state = {
       cnpj: '',
-      company: null,
+      company: '',
       isFetching: false,
       error: '',
       actions: {
@@ -21,42 +21,47 @@ class SearchStore extends PureComponent {
     this.fetchCompanyBy = this.fetchCompanyBy.bind(this)
   }
 
-  handleClick() {
-    const { cnpj } = this.state
-    this.fetchCompanyBy(cnpj)
+  fetchCompanyBy = (cnpj) => {
+    this.setState({ isFetching: true })
+
+    Api.get('/5bd285b03400004f00cfdd9a', { cnpj })
+      .then(response => ((response.data === cnpj)
+        ? this.setState({
+          company: response.data,
+          error: '',
+          isFetching: false
+        })
+        : this.setState({
+          company: null,
+          error: 'CNPJ não encontrado.',
+          isFetching: false
+        })
+      ))
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { value } = event.target
     this.setState({ cnpj: value })
   }
 
-  fetchCompanyBy = cnpj => {
-    this.setState({ isFetching: true })
-
-    Api.get('/5bd285b03400004f00cfdd9a', { cnpj })
-      .then(response => {
-        (response.data === cnpj)
-          ? this.setState({ 
-            company: response.data,
-            error: '', 
-            isFetching: false 
-          })
-          : this.setState({ 
-            company: null,
-            error: 'CNPJ não encontrado.', 
-            isFetching: false 
-          })
-      })
+  handleClick = () => {
+    const { cnpj } = this.state
+    this.fetchCompanyBy(cnpj)
   }
 
   render() {
+    const { children } = this.props
+    const value = { ...this.state }
     return (
-      <Provider value={this.state}>
-        <Search />
+      <Provider value={value}>
+        {children}
       </Provider>
     )
   }
+}
+
+SearchStore.propTypes = {
+  children: PropTypes.element.isRequired
 }
 
 export default SearchStore
