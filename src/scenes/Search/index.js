@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { connect } from 'react-redux'
-import { fetchCompanyByCNPJ } from '../../services/Search/Actions'
+import { Consumer } from '../../services/SearchContext'
 
 import { Grid } from '@material-ui/core'
 
@@ -29,73 +28,43 @@ const styles = (theme) => ({
   }
 })
 
-/**
- * Here we are mapping our states to this component props
- * 
- * @param {Object} state 
- */
-const mapStateToProps = state => {
-  return {
-    isFetching: state.search.isFetching,
-    company: state.search.company,
-    error: state.search.error
-  }
-}
+const Search = ({ classes }) => (
+  <Consumer>
+    {value => {
+      const { 
+        isFetching, 
+        company, 
+        cnpj, 
+        actions, 
+        error 
+      } = value
 
-/**
- * Here we are mapping our actions to the props.
- * 
- * @param {Object} state 
- */
-const mapDispatchToProps = {
-  onSearchSubmit: fetchCompanyByCNPJ
-}
-
-class Search extends Component {
-
-  state = { cnpj: '' }
-
-  handleClick () {
-    const { cnpj } = this.state
-    const { onSearchSubmit } = this.props
-
-    onSearchSubmit({ cnpj })
-  }
-
-  handleChange = event => {
-    const { value } = event.target
-    this.setState({ cnpj: value })
-  }
-
-  render () {
-    const { cnpj } = this.state
-    const { classes, isFetching, company, error } = this.props
-
-    return (
-      <Main>
-        <Grid className={classes.background}>
-          {isFetching && <Linear />}
-          <Header />
-          <Grid className={classes.wrapper}>
-            <Step />
-            <Form 
-              searchOk={(company)? true : false}
-              inputValue={cnpj}
-              handleChange={this.handleChange.bind(this)} />
-          {error && <Error message={error} />}
+      return (
+        <Main>
+          <Grid className={classes.background}>
+            {isFetching && <Linear />}
+            <Header />
+            <Grid className={classes.wrapper}>
+              <Step />
+              <Form 
+                searchOk={!!company}
+                inputValue={cnpj}
+                handleChange={actions.handleChange} 
+              />
+            {error && <Error message={error} />}
+            </Grid>
+            <BottomAction 
+              disabled={!cnpj}
+              handleClick={actions.handleClick} 
+            />
           </Grid>
-          <BottomAction 
-            disabled={(cnpj.length > 0) ? false : true}
-            handleClick={this.handleClick.bind(this)} />
-        </Grid>
-      </Main>
-    )
-  }
-}
+        </Main>
+      )
+    }}
+  </Consumer>
+)
 
 /**
  * Exporting component with styles and mapping the states.
  */
-export default withStyles(styles)(
-  connect(mapStateToProps, mapDispatchToProps)(Search)
-)
+export default withStyles(styles)(Search)

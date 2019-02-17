@@ -24,7 +24,7 @@ const ActionText = ({ ...props }) => {
       alignItems='center'>
       <IconTrending />
       <Typography
-        variant='headline'
+        variant='h5'
         gutterBottom
         style={{ marginTop: '50px' }}
         className={classes.font}>

@@ -45,7 +45,7 @@ const Step = ({ ...props }) => {
       </Grid>
       <Typography
         className={classes.stepText}
-        variant='subheading'>
+        variant='subtitle1'>
         Buscar por CNPJ
       </Typography>
     </Grid>
